@@ -234,7 +234,8 @@
     }
 
     nav.scrolled {
-      background: rgba(12, 15, 14, .78);
+      background: var(--bg);
+      -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
       border-bottom-color: var(--line);
       padding: 12px 28px
@@ -611,6 +612,7 @@
       color: var(--text);
       background: rgba(12, 15, 14, .6);
       border: 1px solid var(--line);
+      -webkit-backdrop-filter: blur(6px);
       backdrop-filter: blur(6px);
       padding: 6px 11px;
       border-radius: 8px
@@ -654,6 +656,7 @@
       margin-top: 52px;
       overflow: hidden;
       background: rgba(16, 20, 19, .5);
+      -webkit-backdrop-filter: blur(4px);
       backdrop-filter: blur(4px)
     }
 
@@ -1757,7 +1760,8 @@
         position: fixed;
         inset: 64px 0 auto 0;
         flex-direction: column;
-        background: rgba(12, 15, 14, .97);
+        background: var(--bg);
+        -webkit-backdrop-filter: blur(16px);
         backdrop-filter: blur(16px);
         padding: 22px 28px 30px;
         gap: 4px;
@@ -1910,7 +1914,7 @@
             <a href="https://pypi.org/user/rohith-baggam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">
                 <path d="M12 2l9 5v10l-9 5-9-5V7l9-5zm0 2.3L5 8v8l7 3.7L19 16V8l-7-3.7z" />
               </svg>PyPI</a>
-            <a href="mailto:rohithrajbaggam@gmail.com"><svg viewBox="0 0 24 24">
+            <a href="mailto:baggamrohithraj@gmail.com"><svg viewBox="0 0 24 24">
                 <path d="M2 4h20v16H2V4zm2 2v.5l8 5 8-5V6H4zm16 3.2l-8 5-8-5V18h16V9.2z" />
               </svg>Email</a>
           </div>
@@ -2461,10 +2465,53 @@
 
       <div class="proj-list">
 
-        <!-- 5.1 django-data-seed -->
+        <!-- 5.1 Atomic -->
         <article class="card reveal" data-tilt>
           <div class="proj-top">
             <span class="proj-num">P1</span>
+            <div class="proj-titlewrap">
+              <div class="proj-title">OneDock Studio</div>
+              <div class="proj-sub">Native backend engine for a database IDE</div>
+            </div>
+          </div>
+          <div class="badges"><span class="badge mit">Java 21 / Quarkus</span><span class="badge mit">GraalVM native
+              image</span><span class="badge mit">in progress</span></div>
+          <div class="proj-links">
+            <a class="plink" href="https://github.com/rohith-baggam/onedock-studio-backend" target="_blank"
+              rel="noopener">GitHub</a>
+          </div>
+          <div class="hook">The native backend engine of <em>TrailQL</em>, a self-hosted DBeaver/DataGrip alternative
+            — a Quarkus service AOT-compiled to a <em>GraalVM native image</em> and embedded in the desktop app as a
+            localhost sidecar.</div>
+          <p class="proj-what">Owns all backend and OS-level interaction — opening connections, introspecting live
+            schemas, executing SQL, generating database-native objects — behind a JWT-secured JSON API, so the
+            desktop UI stays a thin renderer.</p>
+          <ul class="built">
+            <li><b>Multi-engine connection management</b> with per-profile <b>RS256 JWT auth</b> — raw JDBC across
+              PostgreSQL, MySQL, MSSQL and Oracle behind a strategy/factory layer for per-engine differences.</li>
+            <li><b>Schema introspection, table DDL and ER diagrams</b> generated straight off JDBC
+              <code>DatabaseMetaData</code> — dependency graphs and diagrams with zero extra SQL.
+            </li>
+            <li><b>Safe ad-hoc SQL execution engine</b> returning a discriminated-union result (rows / update /
+              error) with row caps, timeouts and truncation detection, plus a database-native
+              <b>audit-trigger generator</b> (twin <code>_audit</code> tables, JSONB/twin-table payload
+              strategies).
+            </li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Java 21</span><span class="chip">Quarkus 3</span><span class="chip">GraalVM native
+              image</span><span class="chip">Hibernate / Panache</span><span class="chip">raw JDBC</span><span
+              class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">MSSQL</span><span
+              class="chip">Oracle</span><span class="chip">SmallRye JWT (RS256)</span><span
+              class="chip">Flyway</span><span class="chip">strategy/factory pattern</span><span class="chip">ER
+              diagrams</span>
+          </div>
+        </article>
+
+        <!-- 5.2 django-data-seed -->
+        <article class="card reveal" data-tilt>
+          <div class="proj-top">
+            <span class="proj-num">P2</span>
             <div class="proj-titlewrap">
               <div class="proj-title">django-data-seed</div>
               <div class="proj-sub">Zero-config Django test-data generator</div>
@@ -2502,7 +2549,7 @@
         <!-- 5.2 django-perfy -->
         <article class="card reveal" data-tilt>
           <div class="proj-top">
-            <span class="proj-num">P2</span>
+            <span class="proj-num">P3</span>
             <div class="proj-titlewrap">
               <div class="proj-title">django-perfy</div>
               <div class="proj-sub">Drop-in performance monitoring for Django</div>
@@ -2540,7 +2587,7 @@
         <!-- 5.3 Rex -->
         <article class="card reveal" data-tilt>
           <div class="proj-top">
-            <span class="proj-num">P3</span>
+            <span class="proj-num">P4</span>
             <div class="proj-titlewrap">
               <div class="proj-title">Rex</div>
               <div class="proj-sub">Real-Time Cross-Database Migration Framework</div>
@@ -2576,7 +2623,7 @@
         <!-- 5.4 Quarkus Blog -->
         <article class="card reveal" data-tilt>
           <div class="proj-top">
-            <span class="proj-num">P4</span>
+            <span class="proj-num">P5</span>
             <div class="proj-titlewrap">
               <div class="proj-title">Quarkus Blog Backend</div>
               <div class="proj-sub">Java 21 / Quarkus learning project</div>
@@ -2669,11 +2716,11 @@
       <p class="contact-sub reveal">Backend architecture, platform engineering, or a hard database problem — I'd love to
         hear about it. Reach me directly:</p>
       <div class="contact-methods reveal">
-        <a class="cm" href="mailto:rohithrajbaggam@gmail.com" data-mag>
+        <a class="cm" href="mailto:baggamrohithraj@gmail.com" data-mag>
           <span class="ic"><svg viewBox="0 0 24 24">
               <path d="M2 4h20v16H2V4zm2 2v.5l8 5 8-5V6H4zm16 3.2l-8 5-8-5V18h16V9.2z" />
             </svg></span>
-          <span><span class="lab">email</span><br><span class="val">rohithrajbaggam@gmail.com</span></span>
+          <span><span class="lab">email</span><br><span class="val">baggamrohithraj@gmail.com</span></span>
         </a>
         <a class="cm" href="tel:+917093389378" data-mag>
           <span class="ic"><svg viewBox="0 0 24 24">
