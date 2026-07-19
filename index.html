@@ -1725,6 +1725,89 @@
     }
 
     /* ================================================================
+   RESUME PREVIEW MODAL
+   ================================================================ */
+    .resume-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: rgba(6, 8, 8, .82);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .resume-modal.open {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .resume-modal-panel {
+      position: relative;
+      width: min(880px, 100%);
+      height: 100%;
+      max-height: 900px;
+      background: var(--bg-2);
+      border: 1px solid var(--line-2);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+      transform: translateY(16px) scale(.98);
+      transition: transform .25s ease;
+    }
+
+    .resume-modal.open .resume-modal-panel {
+      transform: none
+    }
+
+    .resume-modal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-2)
+    }
+
+    .resume-modal-title {
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--muted)
+    }
+
+    .resume-modal-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--line-2);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color .2s, color .2s
+    }
+
+    .resume-modal-close:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .resume-modal-frame {
+      width: 100%;
+      height: calc(100% - 53px);
+      border: 0;
+      background: #fff
+    }
+
+    /* ================================================================
    RESPONSIVE
    ================================================================ */
     @media (max-width:900px) {
@@ -1858,6 +1941,17 @@
   <div class="cur-ring" id="curRing"></div>
   <div class="cur-dot" id="curDot"></div>
 
+  <!-- résumé preview modal -->
+  <div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-label="Résumé preview">
+    <div class="resume-modal-panel">
+      <div class="resume-modal-bar">
+        <span class="resume-modal-title mono">Rohith_Raj_Baggam_Resume.pdf</span>
+        <button type="button" class="resume-modal-close" id="resumeModalClose" aria-label="Close preview">✕</button>
+      </div>
+      <iframe class="resume-modal-frame" id="resumeModalFrame" title="Résumé preview" src=""></iframe>
+    </div>
+  </div>
+
   <!-- ================= NAV ================= -->
   <nav id="nav">
     <a href="#hero" class="brand" data-mag><span class="dot"></span>rohith<span
@@ -1898,8 +1992,8 @@
               </svg>
               Download résumé
             </a>
-            <a href="assets/Rohith_Raj_Baggam_Resume.pdf" class="btn btn-ghost" data-mag target="_blank"
-              rel="noopener">
+            <a href="assets/Rohith_Raj_Baggam_Resume.pdf" class="btn btn-ghost" data-mag id="previewResumeBtn"
+              aria-haspopup="dialog" aria-controls="resumeModal">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z" />
@@ -2783,6 +2877,40 @@
       if (toTop) {
         toTop.addEventListener("click", function () {
           window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      /* ---------- RÉSUMÉ PREVIEW MODAL ---------- */
+      var previewBtn = document.getElementById("previewResumeBtn");
+      var resumeModal = document.getElementById("resumeModal");
+      var resumeModalFrame = document.getElementById("resumeModalFrame");
+      var resumeModalClose = document.getElementById("resumeModalClose");
+      var lastFocused = null;
+
+      function openResumeModal(e) {
+        if (e) e.preventDefault();
+        lastFocused = document.activeElement;
+        resumeModalFrame.src = previewBtn.getAttribute("href");
+        resumeModal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        resumeModalClose.focus();
+      }
+
+      function closeResumeModal() {
+        resumeModal.classList.remove("open");
+        document.body.style.overflow = "";
+        resumeModalFrame.src = "";
+        if (lastFocused) lastFocused.focus();
+      }
+
+      if (previewBtn && resumeModal) {
+        previewBtn.addEventListener("click", openResumeModal);
+        resumeModalClose.addEventListener("click", closeResumeModal);
+        resumeModal.addEventListener("click", function (e) {
+          if (e.target === resumeModal) closeResumeModal();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && resumeModal.classList.contains("open")) closeResumeModal();
         });
       }
 
